@@ -17,4 +17,5 @@
 # vendor/
 .idea
 *.iml
+**/dist
 
