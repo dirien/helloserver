@@ -29,7 +29,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          command: ["hello-server"]
+          command: ["./layers/paketo-buildpacks_go-build/targets/bin/hello-server"]
           args: ["v1"]
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
