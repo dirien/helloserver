@@ -55,8 +55,17 @@ func init() {
 
 func main() {
 
+	if len(os.Args) < 2 {
+		fmt.Println("Please provide a version as first parameter")
+		os.Exit(1)
+	}
+
 	// expecting version as first parameter
 	serviceVersion = os.Args[1]
+	if serviceVersion == "" {
+		fmt.Println("Please provide a version as first parameter")
+		os.Exit(1)
+	}
 
 	// create a new handler
 	handler := HTTPHandler{}

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REPOSITORY="ediri"
+REPOSITORY="dirien"
 
 TAG="0.1.0"
 
