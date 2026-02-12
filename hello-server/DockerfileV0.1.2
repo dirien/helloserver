@@ -20,21 +20,30 @@ COPY . .
 # Build the application
 RUN go build -o hello ./helloserver.go
 
+# Build the healthcheck binary
+RUN go build -o healthcheck ./healthcheck.go
+
 # Move to /dist directory as the place for resulting binary folder
 WORKDIR /dist
 
-# Copy binary from build to main folder
+# Copy binaries from build to main folder
 RUN cp /build/hello .
+RUN cp /build/healthcheck .
 
 # Build a small image
 FROM scratch
 
 COPY --from=builder /dist/hello /
+COPY --from=builder /dist/healthcheck /
 COPY ./static  /static
 COPY ./overview.html  /overview.html
 
 # Export necessary port
 EXPOSE 9000
+
+# Healthcheck: verify the service is responding
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD ["/healthcheck"]
 
 # Command to run when starting the container
 CMD ["/hello", "0.1.2"]
