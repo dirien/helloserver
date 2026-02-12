@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -12,6 +14,7 @@ import (
 
 var serviceVersion string
 var overviewTemplate *template.Template
+var startTime time.Time
 
 // create a new counter vector
 var getCallCounter = prometheus.NewCounterVec(
@@ -24,6 +27,12 @@ var getCallCounter = prometheus.NewCounterVec(
 
 type Overview struct {
 	Version string
+}
+
+type HealthStatus struct {
+	Status  string `json:"status"`
+	Version string `json:"version"`
+	Uptime  string `json:"uptime"`
 }
 
 // create a handler struct
@@ -49,6 +58,20 @@ func (h HTTPHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	status = "success"
 }
 
+// healthCheckHandler responds to /healthz requests with the service health status.
+func healthCheckHandler(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("Content-Type", "application/json")
+	res.WriteHeader(http.StatusOK)
+
+	health := HealthStatus{
+		Status:  "ok",
+		Version: serviceVersion,
+		Uptime:  time.Since(startTime).Round(time.Second).String(),
+	}
+
+	json.NewEncoder(res).Encode(health)
+}
+
 func init() {
 	prometheus.MustRegister(getCallCounter)
 }
@@ -67,6 +90,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	startTime = time.Now()
+
 	// create a new handler
 	handler := HTTPHandler{}
 
@@ -75,6 +100,7 @@ func main() {
 
 	http.Handle("/", handler)
 	http.Handle("/static/", http.StripPrefix("/static/", fileServer))
+	http.HandleFunc("/healthz", healthCheckHandler)
 	fmt.Println("Serving requests on port 9000")
 
 	http.Handle("/metrics", promhttp.Handler())
