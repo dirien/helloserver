@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -49,6 +50,13 @@ func (h HTTPHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	status = "success"
 }
 
+// readyHandler responds to readiness probe requests.
+func readyHandler(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("Content-Type", "application/json")
+	res.WriteHeader(http.StatusOK)
+	json.NewEncoder(res).Encode(map[string]string{"status": "ready"})
+}
+
 func init() {
 	prometheus.MustRegister(getCallCounter)
 }
@@ -75,6 +83,7 @@ func main() {
 
 	http.Handle("/", handler)
 	http.Handle("/static/", http.StripPrefix("/static/", fileServer))
+	http.HandleFunc("/ready", readyHandler)
 	fmt.Println("Serving requests on port 9000")
 
 	http.Handle("/metrics", promhttp.Handler())
