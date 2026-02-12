@@ -1,0 +1,6 @@
+encryptionsalt: v1:FhYyiovhu5Y=:v1:YnHep4vaWeORxNFw:vHKbyii6/m1m4dZKlAphtJ4QKku+Ig==
+config:
+  aws:region: us-west-2
+  hello-server-fargate:containerPort: "9000"
+  hello-server-fargate:cpu: "512"
+  hello-server-fargate:memory: "128"
