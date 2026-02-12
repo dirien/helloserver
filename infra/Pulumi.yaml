@@ -1,0 +1,10 @@
+name: hello-server-ecs
+description: ECS deployment for hello-server Go application
+runtime:
+  name: nodejs
+  options:
+    packagemanager: npm
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-typescript
