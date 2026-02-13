@@ -1,0 +1,7 @@
+name: hello-server-infra
+runtime: nodejs
+description: Infrastructure for the hello-server Go application on AWS EKS
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-typescript
