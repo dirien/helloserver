@@ -75,9 +75,17 @@ func main() {
 
 	http.Handle("/", handler)
 	http.Handle("/static/", http.StripPrefix("/static/", fileServer))
-	fmt.Println("Serving requests on port 9000")
+
+	// health check endpoint
+	http.HandleFunc("/healthz", func(res http.ResponseWriter, req *http.Request) {
+		res.Header().Set("Content-Type", "application/json")
+		res.WriteHeader(http.StatusOK)
+		fmt.Fprintln(res, `{"status":"ok"}`)
+	})
 
 	http.Handle("/metrics", promhttp.Handler())
+
+	fmt.Println("Serving requests on port 9000")
 
 	// listen and serve
 	http.ListenAndServe(":9000", nil)
