@@ -1,0 +1,3 @@
+name: hello-server-deployment
+runtime: nodejs
+description: Pulumi TypeScript project to deploy hello-server Helm chart
