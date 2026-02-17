@@ -79,6 +79,14 @@ func main() {
 
 	http.Handle("/metrics", promhttp.Handler())
 
+	// health check endpoints
+	http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+	http.HandleFunc("/readyz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
 	// listen and serve
 	http.ListenAndServe(":9000", nil)
 }
