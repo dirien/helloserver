@@ -1,0 +1,19 @@
+# Example stack configuration file
+# Copy this to Pulumi.dev.yaml (or Pulumi.<stack-name>.yaml) and customize
+# Or better yet, use Pulumi ESC for configuration management
+
+config:
+  # Kubernetes namespace for deployment
+  hello-server-deployment:namespace: default
+
+  # Number of replicas
+  hello-server-deployment:replicaCount: "1"
+
+  # Enable ingress (true/false)
+  hello-server-deployment:ingressEnabled: "false"
+
+  # Optional: Specify kubeconfig path
+  # hello-server-deployment:kubeconfig: /path/to/kubeconfig
+
+  # Optional: Specify Kubernetes context
+  # hello-server-deployment:kubeContext: my-cluster-context
