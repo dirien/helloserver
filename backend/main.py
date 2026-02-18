@@ -2,9 +2,11 @@ import random
 import string
 from datetime import datetime
 from typing import Dict, Optional
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, HttpUrl
 
@@ -17,6 +19,7 @@ class URLRequest(BaseModel):
 class URLResponse(BaseModel):
     short_code: str
     short_url: str
+    original_url: str
 
 
 class StatsResponse(BaseModel):
@@ -94,7 +97,8 @@ async def shorten_url(request: Request, url_request: URLRequest):
 
     return URLResponse(
         short_code=short_code,
-        short_url=short_url
+        short_url=short_url,
+        original_url=str(url_request.url)
     )
 
 
@@ -160,8 +164,8 @@ async def get_stats(short_code: str):
     )
 
 
-@app.get("/")
-async def root():
+@app.get("/health")
+async def health():
     """Health check endpoint."""
     return {
         "status": "ok",
@@ -172,6 +176,12 @@ async def root():
             "GET /api/stats/{short_code}": "Get URL statistics"
         }
     }
+
+
+# Mount static files (frontend) - this should be last
+static_dir = Path(__file__).parent / "static"
+if static_dir.exists():
+    app.mount("/", StaticFiles(directory=str(static_dir), html=True), name="static")
 
 
 if __name__ == "__main__":
