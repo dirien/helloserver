@@ -1,7 +1,8 @@
-import random
+import secrets
 import string
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
@@ -17,7 +18,7 @@ db: dict[str, dict] = {}
 def _gen_code(length: int = 6) -> str:
     chars = string.ascii_letters + string.digits
     while True:
-        code = "".join(random.choices(chars, k=length))
+        code = "".join(secrets.choice(chars) for _ in range(length))
         if code not in db:
             return code
 
@@ -44,6 +45,9 @@ def shorten(body: ShortenRequest) -> ShortenResponse:
     url = body.url.strip()
     if not url:
         raise HTTPException(status_code=422, detail="url must not be empty")
+    scheme = urlparse(url).scheme.lower()
+    if scheme not in {"http", "https"}:
+        raise HTTPException(status_code=422, detail="url must use http or https")
     code = _gen_code()
     db[code] = {
         "original_url": url,
