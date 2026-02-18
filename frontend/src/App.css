@@ -1,0 +1,259 @@
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin: 0 0 2rem 0;
+  color: #2d3748;
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+h2 {
+  margin: 2rem 0 1rem 0;
+  color: #2d3748;
+  font-size: 1.5rem;
+}
+
+h3 {
+  margin: 0 0 0.5rem 0;
+  color: #4a5568;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.shorten-section {
+  margin-bottom: 3rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.url-input {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.url-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.url-input:disabled {
+  background-color: #f7fafc;
+  cursor: not-allowed;
+}
+
+.shorten-button {
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.shorten-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.shorten-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-message {
+  padding: 0.75rem 1rem;
+  background-color: #fed7d7;
+  color: #c53030;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.result-section {
+  background-color: #f7fafc;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+}
+
+.shortened-url-display {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.short-link {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background-color: white;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.short-link:hover {
+  background-color: #edf2f7;
+}
+
+.copy-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #667eea;
+  background-color: white;
+  border: 2px solid #667eea;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.copy-button:hover {
+  background-color: #667eea;
+  color: white;
+}
+
+.stats-section {
+  margin-top: 3rem;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.stats-table thead {
+  background-color: #f7fafc;
+}
+
+.stats-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #4a5568;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.stats-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.stats-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.stats-table tbody tr:hover {
+  background-color: #f7fafc;
+}
+
+.table-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.table-link:hover {
+  text-decoration: underline;
+}
+
+.original-url {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #4a5568;
+}
+
+.clicks-cell {
+  font-weight: 600;
+  color: #2d3748;
+  text-align: center;
+}
+
+.copy-button-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #667eea;
+  background-color: transparent;
+  border: 1px solid #667eea;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-button-small:hover {
+  background-color: #667eea;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .shortened-url-display {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .copy-button {
+    width: 100%;
+  }
+
+  .stats-table th,
+  .stats-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .original-url {
+    max-width: 150px;
+  }
+}
